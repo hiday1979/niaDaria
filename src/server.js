@@ -8,12 +8,15 @@ const api = require('./server/routes/api');
 const app = express();
 
 // Serve only the static files form the dist directory
-app.use(express.static(__dirname + '/dist/niaDaria'));
+app.use(express.static(path.join(__dirname ,'dist')));
 
-app.get('/*', function(req,res) {
-
-res.sendFile(path.join(__dirname+'/dist/niaDaria/index.html'));
+app.get('/*', (req,res) => {
+  res.sendFile(path.join(__dirname + '/dist/index.html'));
 });
 
+const port = process.env.PORT || '3001';
+app.set('port', port);
+
+const server = http.createServer(app);
 // Start the app by listening on the default Heroku port
-app.listen(process.env.PORT || 8080);
+server.listen(port, () => console.log('Running'));
